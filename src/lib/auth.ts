@@ -61,5 +61,11 @@ export const authOptions: NextAuthOptions = {
   },
   session: {
     strategy: 'jwt',
+    // Set maximum session age to 7 days (in seconds)
+    maxAge: 7 * 24 * 60 * 60, // 7 days
+  },
+  jwt: {
+    // Set maximum token age to 7 days (in seconds)
+    maxAge: 7 * 24 * 60 * 60, // 7 days
   },
 };
