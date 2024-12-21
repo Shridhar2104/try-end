@@ -2,10 +2,11 @@
 
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState(false);
 
@@ -19,6 +20,8 @@ export function LoginForm() {
     const password = formData.get('password') as string;
 
     try {
+      const callbackUrl = searchParams.get('callbackUrl') || '/home';
+      
       const result = await signIn('credentials', {
         email,
         password,
@@ -30,7 +33,8 @@ export function LoginForm() {
         return;
       }
 
-      router.push('/dashboard'); // Redirect on successful login
+      // Redirect to the callback URL or home page
+      router.push(callbackUrl);
     } catch (error) {
       setError('An error occurred during login');
     } finally {
